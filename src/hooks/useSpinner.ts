@@ -9,3 +9,5 @@ export const useSpinner = () => {
 
   return { spinning, startSpin, endSpin };
 };
+
+export type Spinner = ReturnType<typeof useSpinner>;

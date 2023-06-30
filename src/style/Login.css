@@ -1,0 +1,30 @@
+.login-wrapper {
+  margin-top: 7.5rem;
+}
+
+.form-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f9f9fd;
+}
+
+form.login-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+div.p-password > input.p-password-input {
+  width: 100%;
+}
+
+button.submit-login-btn {
+  justify-content: center;
+  background-color: #ff5722;
+  border: none;
+}
+
+.login-error {
+  color: red;
+}

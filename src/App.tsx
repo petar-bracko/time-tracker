@@ -1,4 +1,8 @@
 import "./App.css";
+import "./style/Layout.css";
+import "./style/Login.css";
+import "./style/Trackers.css";
+import "./style/History.css";
 import { Router } from "./router/Router";
 import { PrimeReactProvider } from "primereact/api";
 

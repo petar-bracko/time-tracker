@@ -1,0 +1,50 @@
+.trackers-wrapper {
+  padding-top: 5rem;
+}
+
+.current-date {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 17px;
+  text-align: left;
+  margin: 0;
+}
+
+.trackers-actions-wrapper {
+  display: flex;
+  justify-content: right;
+  column-gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+button.new-timer-btn {
+  background-color: #ff5722;
+  border: none;
+}
+
+button.stop-all-trackers-btn {
+  background-color: #181846;
+  border: none;
+}
+
+div.tracker-actions-wrapper {
+  display: flex;
+  column-gap: 0.25rem;
+}
+
+button.tracker-action-btn {
+  border: none;
+  background-color: transparent;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.125s ease-in-out;
+}
+button.tracker-action-btn:hover {
+  transform: scale(1.25);
+}
+button.tracker-action-btn > svg {
+  font-size: 1.25rem;
+}
+button.play-pause {
+  color: #ff5722;
+}

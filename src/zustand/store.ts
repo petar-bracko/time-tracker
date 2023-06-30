@@ -1,17 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-type User = {
-  username: string;
-  isAuthenitacted: boolean;
-  id: string;
-};
-
-type UserStore = {
-  user: User;
-  authUser: (username: string, id: string) => void;
-  clearUser: () => void;
-};
+import type { User, UserStore } from "../types";
 
 const initUser: User = {
   username: "",

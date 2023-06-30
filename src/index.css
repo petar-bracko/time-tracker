@@ -1,5 +1,6 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Nunito Sans, Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -16,10 +17,7 @@
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
 }
 
 @media (prefers-color-scheme: light) {
@@ -27,4 +25,22 @@ body {
     color: #213547;
     background-color: #ffffff;
   }
+}
+
+/* W3S */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #181846;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(24, 24, 70, 0.8);
+}
+
+a {
+  all: unset;
 }

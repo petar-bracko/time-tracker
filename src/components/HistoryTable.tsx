@@ -173,6 +173,7 @@ export const HistoryTable = ({
           <InputText
             value={editingTracker.description}
             style={{ width: "50%" }}
+            autoFocus
             placeholder="Enter description"
             onInput={({ currentTarget: { value } }) =>
               setEditingTracker((current) => ({

@@ -18,13 +18,17 @@ import { InputText } from "primereact/inputtext";
 interface Props {
   trackers: Tracker[];
   onDescriptionUpdate: (updatedTrackerId: string, newDesc: string) => void;
-  onTrackerDelete: (updatedTrackerId: string) => void;
+  onTrackerDelete: (deletedTrackerId: string) => void;
+  engageTracker: (tracker: Tracker, action: "play" | "pause") => void;
+  stopTracker: (tracker: Tracker) => void;
 }
 
 export const TrackersTable = ({
   trackers,
   onDescriptionUpdate,
   onTrackerDelete,
+  engageTracker,
+  stopTracker,
 }: Props) => {
   const editModal = useModal();
   const [editingTracker, setEditingTracker] = useState<Tracker>(EMPTY_TRACKER);
@@ -33,10 +37,12 @@ export const TrackersTable = ({
     useState<Tracker>(EMPTY_TRACKER);
 
   function handleTrackerPlayPause(tracker: Tracker) {
-    console.log("play pause tracker", tracker);
+    const action = tracker.paused ? "play" : "pause";
+    engageTracker(tracker, action);
   }
+
   function handleTrackerStop(tracker: Tracker) {
-    console.log("stop tracker", tracker);
+    stopTracker(tracker);
   }
 
   function handleTrackerEdit(tracker: Tracker) {
@@ -101,9 +107,7 @@ export const TrackersTable = ({
   async function updateTrackerDescription() {
     const trackerRef = doc(DB, "trackers", editingTracker.id);
     try {
-      await updateDoc(trackerRef, {
-        description: editingTracker.description,
-      });
+      await updateDoc(trackerRef, { description: editingTracker.description });
       onDescriptionUpdate(editingTracker.id, editingTracker.description);
       setEditingTracker(EMPTY_TRACKER);
       editModal.closeModal();
@@ -196,6 +200,7 @@ export const TrackersTable = ({
             value={editingTracker.description}
             style={{ width: "50%" }}
             placeholder="Enter description"
+            autoFocus
             onInput={({ currentTarget: { value } }) =>
               setEditingTracker((current) => ({
                 ...current,

@@ -11,13 +11,14 @@ import { MdOutlineTimer } from "react-icons/md";
 import { FaRegCircleStop } from "react-icons/fa6";
 import { doc, updateDoc } from "firebase/firestore";
 import { DB } from "../config/firebase";
+import { AiOutlineCalendar } from "react-icons/ai";
 
 export const Trackers = () => {
   const [trackers, setTrackers] = useState<Tracker[]>([]);
   const user = useUserStore((state) => state.user);
   const spinner = useSpinner();
   const [activeTracker, setActiveTracker] = useState<Tracker>(EMPTY_TRACKER);
-  const activeInterval = useRef<NodeJS.Timer>();
+  const incrementInterval = useRef<NodeJS.Timer>();
   const syncDbInterval = useRef<NodeJS.Timer>();
 
   function handleCreateTimer() {
@@ -30,7 +31,7 @@ export const Trackers = () => {
       console.log("No active tracker");
       return;
     }
-    clearInterval(activeInterval.current);
+    clearInterval(incrementInterval.current);
     clearInterval(syncDbInterval.current);
     const tempTrackers = [...trackers];
     const indexOfPlayingTracker = tempTrackers.findIndex(
@@ -61,7 +62,7 @@ export const Trackers = () => {
 
   const removeDeletedTrackerFromTable = (deletedTrackerId: string) => {
     if (activeTracker.id === deletedTrackerId) {
-      clearInterval(activeInterval.current);
+      clearInterval(incrementInterval.current);
       clearInterval(syncDbInterval.current);
       setActiveTracker(EMPTY_TRACKER);
     }
@@ -109,7 +110,7 @@ export const Trackers = () => {
 
   const engageTracker = (tracker: Tracker, action: "play" | "pause") => {
     if (action === "pause") {
-      clearInterval(activeInterval.current);
+      clearInterval(incrementInterval.current);
       clearInterval(syncDbInterval.current);
       syncTracker(tracker);
     }
@@ -126,7 +127,7 @@ export const Trackers = () => {
         return;
       }
       tempTrackers[indexOfCurrentlyActiveTracker].paused = true;
-      clearInterval(activeInterval.current);
+      clearInterval(incrementInterval.current);
       clearInterval(syncDbInterval.current);
     }
     const indexOfEngagedTracker = tempTrackers.findIndex(
@@ -139,18 +140,18 @@ export const Trackers = () => {
     tempTrackers[indexOfEngagedTracker].paused =
       !tempTrackers[indexOfEngagedTracker].paused;
     if (action === "play") {
-      const intervalID = setInterval(
+      const incrementIntervalId = setInterval(
         incrementSeconds,
         1000,
         tempTrackers[indexOfEngagedTracker]
       );
-      activeInterval.current = intervalID;
-      const syncID = setInterval(
+      incrementInterval.current = incrementIntervalId;
+      const syncIntervalId = setInterval(
         syncTracker,
         5000,
         tempTrackers[indexOfEngagedTracker]
       );
-      syncDbInterval.current = syncID;
+      syncDbInterval.current = syncIntervalId;
     }
     setActiveTracker(
       tempTrackers[indexOfEngagedTracker].paused
@@ -163,7 +164,7 @@ export const Trackers = () => {
   const stopTracker = async (tracker: Tracker) => {
     if (activeTracker.id === tracker.id) {
       // MEANS IT IS CURRENTLY ACTIVE
-      clearInterval(activeInterval.current);
+      clearInterval(incrementInterval.current);
       clearInterval(syncDbInterval.current);
       setActiveTracker(EMPTY_TRACKER);
     }
@@ -198,7 +199,7 @@ export const Trackers = () => {
       .catch((err) => console.error(err));
 
     return () => {
-      clearInterval(activeInterval.current);
+      clearInterval(incrementInterval.current);
       clearInterval(syncDbInterval.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -206,7 +207,12 @@ export const Trackers = () => {
 
   return (
     <div className="trackers-wrapper">
-      <p className="current-date">Today ({CURRENT_DATE})</p>
+      <p className="current-date">
+        <span>
+          <AiOutlineCalendar />
+        </span>
+        <span>Today ({CURRENT_DATE})</span>
+      </p>
       <div className="trackers-actions-wrapper">
         <Button
           type="button"
@@ -221,6 +227,7 @@ export const Trackers = () => {
           className="stop-all-trackers-btn"
           onClick={handleStopAllTimers}
           icon={<FaRegCircleStop />}
+          disabled={activeTracker.id === ""}
         >
           <span className="ml-1r">Stop all</span>
         </Button>

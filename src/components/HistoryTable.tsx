@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import type { Tracker } from "../types";
+import type { FilterForm, Tracker } from "../types";
 import { MdOutlineEdit } from "react-icons/md";
 import { BsFillTrashFill } from "react-icons/bs";
 import { formatSeconds } from "../helpers/utils";
@@ -12,17 +12,20 @@ import { Button } from "primereact/button";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { DB } from "../config/firebase";
 import { EMPTY_TRACKER } from "../data/constants";
+import { isDateBetweenRange } from "../helpers/validation";
 
 interface Props {
   trackers: Tracker[];
   onDescriptionUpdate: (updatedTrackerId: string, newDesc: string) => void;
   onTrackerDelete: (updatedTrackerId: string) => void;
+  filterForm: FilterForm;
 }
 
 export const HistoryTable = ({
   trackers,
   onDescriptionUpdate,
   onTrackerDelete,
+  filterForm,
 }: Props) => {
   const editModal = useModal();
   const [editingTracker, setEditingTracker] = useState<Tracker>(EMPTY_TRACKER);
@@ -139,15 +142,63 @@ export const HistoryTable = ({
     deleteModal.closeModal();
   }
 
+  function getTableValue() {
+    if (
+      filterForm.description === "" &&
+      !filterForm.endDate &&
+      !filterForm.startDate
+    ) {
+      return trackers;
+    }
+    // BRUTE FORCE :/
+    return trackers.filter((tracker) => {
+      let descMatch = true;
+      let startDateMatch = true;
+      let endDateMatch = true;
+      let rangeMatch = true;
+      let isRange = false;
+
+      if (filterForm.startDate && filterForm.endDate) isRange = true;
+
+      if (filterForm.description !== "") {
+        descMatch = tracker.description
+          .toLowerCase()
+          .includes(filterForm.description.toLowerCase());
+      }
+
+      if (filterForm.startDate && !filterForm.endDate) {
+        // START DATE ONLY
+        startDateMatch = tracker.created === filterForm.startDate;
+      }
+
+      if (!filterForm.startDate && filterForm.endDate) {
+        // END DATE ONLY
+        endDateMatch = tracker.created === filterForm.endDate;
+      }
+
+      if (isRange) {
+        // RANGE BETWEEN
+        rangeMatch = isDateBetweenRange(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          filterForm.startDate!,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          filterForm.endDate!,
+          tracker.created
+        );
+      }
+
+      if (descMatch) {
+        if (isRange && rangeMatch) return tracker;
+        if (!isRange) {
+          if (startDateMatch && endDateMatch) return tracker;
+        }
+      }
+    });
+  }
+
   return (
     <>
-      <DataTable
-        value={trackers}
-        paginator
-        rows={5}
-        rowsPerPageOptions={[5, 10]}
-        showGridlines
-      >
+      <DataTable value={getTableValue()} paginator rows={5} showGridlines>
         <Column field="created" header="Date"></Column>
         <Column
           field="description"

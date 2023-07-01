@@ -168,13 +168,7 @@ export const TrackersTable = ({
 
   return (
     <>
-      <DataTable
-        value={trackers}
-        paginator
-        rows={5}
-        rowsPerPageOptions={[5, 10]}
-        showGridlines
-      >
+      <DataTable value={trackers} paginator rows={5} showGridlines>
         <Column
           field="seconds"
           header="Time logged"

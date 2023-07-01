@@ -1,5 +1,8 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useUserStore } from "../zustand/store";
+import { BsStopwatch } from "react-icons/bs";
+import { FaHistory } from "react-icons/fa";
+import { AiOutlinePoweroff } from "react-icons/ai";
 
 export const SharedLayout = () => {
   const user = useUserStore((state) => state.user);
@@ -25,7 +28,10 @@ export const SharedLayout = () => {
                   borderColor: isActive ? "#ff5722" : "",
                 })}
               >
-                Trackers
+                <div className="nav-link-center">
+                  <BsStopwatch />
+                  <span>Trackers</span>
+                </div>
               </NavLink>
               <NavLink
                 to="/history"
@@ -34,9 +40,17 @@ export const SharedLayout = () => {
                   borderColor: isActive ? "#ff5722" : "",
                 })}
               >
-                History
+                <div className="nav-link-center">
+                  <FaHistory />
+                  <span>History</span>
+                </div>
               </NavLink>
-              <span onClick={handleLogout}>Logout</span>
+              <span onClick={handleLogout}>
+                <div className="nav-link-center">
+                  <AiOutlinePoweroff />
+                  <span>Logout</span>
+                </div>
+              </span>
             </nav>
           </div>
         )}

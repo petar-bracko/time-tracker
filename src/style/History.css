@@ -5,3 +5,33 @@
 .history-search-form-wrapper {
   margin: 5rem 0;
 }
+
+.hisotry-filter-form-wrapper {
+  margin: 3rem 0;
+}
+
+form.history-filter-form {
+  background-color: #f9f9fd;
+  padding: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+form.history-filter-form > * {
+  width: clamp(350px, 400px, 450px);
+}
+
+button.p-datepicker-trigger {
+  background-color: white;
+  color: black;
+  border: 1px solid #ced4da;
+}
+
+label.filter-form-label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  color: #5f6b8a;
+}

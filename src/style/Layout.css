@@ -51,3 +51,9 @@ nav.nav-list > a.nav-link {
 .active-nav-link {
   border-color: #ff5722;
 }
+
+.nav-link-center {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+}

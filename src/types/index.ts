@@ -24,3 +24,15 @@ export type Tracker = {
   paused: boolean;
   userId: string;
 };
+
+export type FilterForm = {
+  startDate: string | null;
+  endDate: string | null;
+  description: string;
+};
+
+export type Date = {
+  day: number;
+  month: number;
+  year: number;
+};

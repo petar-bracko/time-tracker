@@ -36,3 +36,9 @@ export type Date = {
   month: number;
   year: number;
 };
+
+export type RegisterData = {
+  username: string;
+  password: string;
+  confirmPassword: string;
+};

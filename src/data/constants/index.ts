@@ -1,6 +1,6 @@
 import { collection } from "firebase/firestore";
 import { DB } from "../../config/firebase";
-import type { Tracker } from "../../types";
+import type { RegisterData, Tracker } from "../../types";
 
 export const TRACKERS_COLLECTION = collection(DB, "trackers");
 
@@ -15,3 +15,11 @@ export const EMPTY_TRACKER: Tracker = {
   seconds: -1,
   userId: "",
 };
+
+export const INIT_REGISTER_DATA: RegisterData = {
+  confirmPassword: "",
+  password: "",
+  username: "",
+};
+
+export const USERS_COLLECTION = collection(DB, "users");

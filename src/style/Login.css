@@ -7,6 +7,7 @@
   margin: 0 auto;
   padding: 2rem;
   background-color: #f9f9fd;
+  border-radius: 5px;
 }
 
 form.login-form {
@@ -26,5 +27,45 @@ button.submit-login-btn {
 }
 
 .login-error {
+  color: red;
+}
+
+.register-wrapper {
+  background-color: #f9f9fd;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 3rem;
+  border-radius: 5px;
+  padding: 2.5rem;
+  padding-bottom: 0;
+  display: flex;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 5rem;
+  color: #5f6b8a;
+}
+
+.register-info {
+  text-align: left;
+  margin-left: 1rem;
+  font-weight: 500;
+}
+
+.register-link {
+  color: #ff5722;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+form.registration-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.register-error {
   color: red;
 }
